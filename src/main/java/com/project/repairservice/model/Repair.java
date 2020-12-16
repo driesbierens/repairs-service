@@ -1,11 +1,9 @@
-package com.project.repairsservice.model;
-
+package com.project.repairservice.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Document(collection = "repairs")
 public class Repair {

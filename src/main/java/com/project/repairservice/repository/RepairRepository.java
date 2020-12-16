@@ -1,6 +1,6 @@
-package com.project.repairsservice.repository;
+package com.project.repairservice.repository;
 
-import com.project.repairsservice.model.Repair;
+import com.project.repairservice.model.Repair;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

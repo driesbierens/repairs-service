@@ -1,10 +1,10 @@
-package com.project.repairsservice;
+package com.project.repairservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RepairsServiceApplicationTests {
+class RepairserviceApplicationTests {
 
 	@Test
 	void contextLoads() {

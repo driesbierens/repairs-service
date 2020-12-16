@@ -1,7 +1,7 @@
-package com.project.repairsservice.controller;
+package com.project.repairservice.controller;
 
-import com.project.repairsservice.model.Repair;
-import com.project.repairsservice.repository.RepairRepository;
+import com.project.repairservice.model.Repair;
+import com.project.repairservice.repository.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -91,3 +91,4 @@ public class RepairController {
 
 
 }
+
