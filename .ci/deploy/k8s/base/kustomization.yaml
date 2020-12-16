@@ -6,5 +6,5 @@ resources:
 - resources/service.yaml
 images:
 - name: api
-  newName: docker.pkg.github.com/driesbierens/repairs-service/api
+  newName: docker.pkg.github.com/driesbierens/repairs-service/package
   newTag: dc5fa4904d2ad6840b0f5b50b9ec3db9ee6d3c5e

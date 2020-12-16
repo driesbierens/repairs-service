@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: repair-service
+  name: repairs-service
 spec:
   selector:
-    app: repair-service
+    app: repairs-service
   ports:
     - port: 80
-      targetPort: 5052
+      targetPort: 8052
   type: LoadBalancer

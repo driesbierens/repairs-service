@@ -39,13 +39,13 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Update image name for kustomization
-        run: cd .ci/deploy/k8s/base && docker run --rm --entrypoint /app/kustomize --workdir /app/src -v $(pwd):/app/src k8s.gcr.io/kustomize/kustomize:v3.8.7 edit set image api=docker.pkg.github.com/driesbierens/repairs-service/api:${{ github.sha }} && cd ../../../..
+        run: cd .ci/deploy/k8s/base && docker run --rm --entrypoint /app/kustomize --workdir /app/src -v $(pwd):/app/src k8s.gcr.io/kustomize/kustomize:v3.8.7 edit set image api=docker.pkg.github.com/driesbierens/repairs-service/package:${{ github.sha }} && cd ../../../..
 
       - name: configure git user
         run: git config user.email '<>' && git config user.name "CI - Github Actions"
 
       - name: Commit changes
-        run: git add .ci/deploy/k8s/base/kustomization.yaml && git commit -m "[ci] Update image to docker.pkg.github.com/driesbierens/repairs-service/api:${{ github.sha }}"
+        run: git add .ci/deploy/k8s/base/kustomization.yaml && git commit -m "[ci] Update image to docker.pkg.github.com/driesbierens/repairs-service/package:${{ github.sha }}"
       
       - name: Push changes to master
         run: git push https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git master
