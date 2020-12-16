@@ -45,4 +45,4 @@ jobs:
         run: git add .ci/deploy/k8s/base/kustomize.yaml && git commit -m "[ci] Update image to docker.pkg.github.com/driesbierens/repairs-service/api:${{ github.sha }}"
       
       - name: Push changes to master
-        run: git push https://${{ GITHUB_ACTOR }}:${ secrets.GITHUB_TOKEN}@github.com/${{ GITHUB_REPOSITORY }}.git master
+        run: git push https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git master
