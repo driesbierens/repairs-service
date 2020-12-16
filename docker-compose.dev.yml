@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  repair-service:
+    build:
+      context: .
+      dockerfile: .ci/build/Dockerfile
+    image: repair-service:dev
+    environment:
+      - MONGODB_HOST=mongod
+      - MONGODB_PORT=27017
+    ports:
+      - 8052:8052
+    depends_on:
+      - mongod
+
+  mongod:
+    image: mongo:4.1.1
