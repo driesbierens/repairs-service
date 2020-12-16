@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repair-service
+spec:
+  selector:
+    matchLabels:
+      app: repair-service
+  template:
+    metadata:
+      labels:
+        app: repair-service
+    spec:
+      containers:
+        - name: repair-service
+          image: api
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5052
