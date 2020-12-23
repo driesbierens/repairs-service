@@ -23,7 +23,7 @@ jobs:
         run: docker login -u dbierens -p ${{ secrets.DOCKER_PASSWORD }}
         
       - name: Build the Docker image
-        run: docker build . --file .ci/build/Dockerfile --tag dbierens/repairs-service:latest .
+        run: docker build -t dbierens/repairs-service:latest .
         
       - name: Push docker image
         run: docker push dbierens/repairs-service:latest
