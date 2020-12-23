@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Login to Github Packages
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u driesbierens --password-stdin docker.pkg.github.com
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u dbierens --password-stdin docker.pkg.github.com
         
       - name: Build the Docker image
         run: docker build . --file .ci/build/Dockerfile --tag docker.pkg.github.com/driesbierens/repairs-service/package:${{ github.sha }}
