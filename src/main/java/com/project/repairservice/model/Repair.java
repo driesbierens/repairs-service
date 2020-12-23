@@ -9,8 +9,8 @@ import java.time.LocalDate;
 public class Repair {
     @Id
     private String id;
-    private Integer customerId;
-    private Integer employeeId;
+    private String customerId;
+    private String employeeId;
     private String type;
     private Double price;
     private LocalDate date;
@@ -21,7 +21,7 @@ public class Repair {
 
     }
 
-    public Repair(int customerId, int employeeId, String type, double price, LocalDate date, String description, String[] parts) {
+    public Repair(String customerId, String employeeId, String type, double price, LocalDate date, String description, String[] parts) {
         setCustomerId(customerId);
         setEmployeeId(employeeId);
         setType(type);
@@ -39,19 +39,19 @@ public class Repair {
         this.id = id;
     }
 
-    public Integer getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
-    public Integer getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(Integer employeeId) {
+    public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
 
