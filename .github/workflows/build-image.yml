@@ -19,17 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         
-      - name: Login to Github Packages
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u dbierens --password-stdin docker.pkg.github.com
+      - name: Login to Docker
+        run: docker login -u dbierens -p ${{ secrets.DOCKER_PASSWORD }}
         
       - name: Build the Docker image
-        run: docker build . --file .ci/build/Dockerfile --tag docker.pkg.github.com/driesbierens/repairs-service/package:${{ github.sha }}
+        run: docker build . --file .ci/build/Dockerfile --tag dbierens/repairs-service:latest:${{ github.sha }}
         
       - name: Push docker image
-        run: docker push docker.pkg.github.com/driesbierens/repairs-service/package:${{ github.sha }}
+        run: docker push dbierens/repairs-service:latest:${{ github.sha }}
       
       - name: Logout from Github Packages
-        run: docker logout docker.pkg.github.com
+        run: docker logout
     
   update-image-name:
     runs-on: ubuntu-latest
