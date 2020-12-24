@@ -7,4 +7,4 @@ resources:
 images:
 - name: api
   newName: docker.pkg.github.com/driesbierens/repairs-service/package
-  newTag: 2e53b65c180a4a219e86c6c5653004bedce01628
+  newTag: 949c35e0eef75d511e5895233a257605cd0b1beb
