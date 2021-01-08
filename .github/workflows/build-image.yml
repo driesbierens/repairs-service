@@ -11,24 +11,58 @@ on:
     paths-ignore:
       - '.ci/**'
 jobs:
+  compile:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 11 ]
+    name: Java ${{ matrix.java }} compile
+    steps:
+      - uses: actions/checkout@master
 
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - run: mvn -f pom.xml clean compile
   build:
 
     runs-on: ubuntu-latest
-
+    needs: compile
+    name: Java 8 build, deliver artifact and container
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
       
       - name: Start MongoDB for integration test
         uses: supercharge/mongodb-github-action@1.3.0
         with:
          mongodb-version: 4.2
-        
+
+      - name: Test and build project
+        run: mvn -f pom.xml clean install
+
+      - name: Show contents of the current working directory
+        run: ls -la
+
+      - name: Show contents of the target directory
+        run: ls -la target
+
+      - name: Upload Maven build artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: repairs-service-artifact.jar
+          path: ./target/repairs-service-0.0.1-SNAPSHOT.jar
+
       - name: Login to Docker
         run: docker login -u dbierens -p ${{ secrets.DOCKER_PASSWORD }}
         
       - name: Build the Docker image
-        run: docker build -t dbierens/repairs-service:latest -f ./.ci/build/Dockerfile .
+        run: docker build -t dbierens/repairs-service:latest .
         
       - name: Push docker image
         run: docker push dbierens/repairs-service:latest
