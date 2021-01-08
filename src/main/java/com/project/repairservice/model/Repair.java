@@ -1,9 +1,11 @@
 package com.project.repairservice.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Document(collection = "repairs")
 public class Repair {
@@ -13,15 +15,17 @@ public class Repair {
     private String employeeId;
     private String type;
     private Double price;
-    private LocalDate date;
+    private String date;
     private String description;
     private String[] parts;
+    @Indexed(unique = true)
+    private String repairUuid = generateRepairUuid();
 
     public Repair() {
 
     }
 
-    public Repair(String customerId, String employeeId, String type, double price, LocalDate date, String description, String[] parts) {
+    public Repair(String customerId, String employeeId, String type, double price, String date, String description, String[] parts) {
         setCustomerId(customerId);
         setEmployeeId(employeeId);
         setType(type);
@@ -29,6 +33,10 @@ public class Repair {
         setRepairDate(date);
         setDescription(description);
         setListParts(parts);
+    }
+
+    private String generateRepairUuid() {
+        return "r" + UUID.randomUUID().toString().replace("-", "");
     }
 
     public String getId() {
@@ -71,11 +79,11 @@ public class Repair {
         this.price = price;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setRepairDate(LocalDate date) {
+    public void setRepairDate(String date) {
         this.date = date;
     }
 
@@ -93,5 +101,13 @@ public class Repair {
 
     public void setListParts(String[] parts) {
         this.parts = parts;
+    }
+
+    public String getRepairUuid() {
+        return repairUuid;
+    }
+
+    public void setRepairUuid(String repairUuid) {
+        this.repairUuid = repairUuid;
     }
 }

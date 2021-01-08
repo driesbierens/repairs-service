@@ -13,6 +13,6 @@ public interface RepairRepository extends MongoRepository<Repair, String> {
     List<Repair> findRepairsByCustomerId(String customerId);
     List<Repair> findRepairsByCustomerIdAndEmployeeId(String customerId, String employeeId);
     List<Repair> findRepairsByType(String type);
-    List<Repair> findRepairsByDate(LocalDate date);
-    Repair findRepairByCustomerIdAndDate(String customerId, LocalDate date);
+    List<Repair> findRepairsByDate(String date);
+    Repair findRepairByRepairUuid(String repairUuid);
 }

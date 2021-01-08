@@ -3,6 +3,7 @@ package com.project.repairservice.controller;
 import com.project.repairservice.model.Repair;
 import com.project.repairservice.repository.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,68 +20,71 @@ public class RepairController {
     @PostConstruct
     public void fillDB() {
         if(repairRepository.count() == 0) {
-            repairRepository.save(new Repair("c001","e001","onderhoud", 250.0, LocalDate.now(), "Groot onderhoud", new String[]{"abc1", "abc2"}));
-            repairRepository.save(new Repair("c002","e001", "onderhoud", 350.0, LocalDate.now(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"}));
-            repairRepository.save(new Repair("c003","e002", "motor", 3500.0, LocalDate.of(1996,5,30), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}));
-            repairRepository.save(new Repair("c050","e002", "motor", 3500.0, LocalDate.of(1996,5,30), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}));
+            repairRepository.save(new Repair("c001","e001","onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"}));
+            repairRepository.save(new Repair("c002","e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"}));
+            repairRepository.save(new Repair("c003","e002", "motor", 3500.0, LocalDate.of(1996,5,30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}));
+            repairRepository.save(new Repair("c050","e002", "motor", 3500.0, LocalDate.of(1996,5,30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}));
         }
 
         System.out.println("Repairs test: " + repairRepository.findRepairsByEmployeeId("e001").size());
     }
 
-    @GetMapping("/repairs/customer/{customerId}/date/{date}")
-    public Repair getRepairByCustomerIdAndDate(@PathVariable String customerId, @PathVariable LocalDate date) {
-        return repairRepository.findRepairByCustomerIdAndDate(customerId, date);
+    @GetMapping(value = "/repairs/uuid/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Repair getRepairByUuid(@PathVariable String uuid) {
+        return repairRepository.findRepairByRepairUuid(uuid);
     }
 
-    @GetMapping("/repairs/employee/{employeeId}")
+    @GetMapping(value = "/repairs/employee/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Repair> getRepairsByEmployeeId(@PathVariable String employeeId) {
         return repairRepository.findRepairsByEmployeeId(employeeId);
     }
 
-    @GetMapping("/repairs/customer/{customerId}")
+    @GetMapping(value = "/repairs/customer/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Repair> getRepairsByCustomerId(@PathVariable String customerId) {
         return repairRepository.findRepairsByCustomerId(customerId);
     }
 
-    @GetMapping("/repairs/customer/{customerId}/employee/{employeeId}")
+    @GetMapping(value = "/repairs/customer/{customerId}/employee/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Repair> getRepairsByCustomerIdAndEmployeeId(@PathVariable String customerId, @PathVariable String employeeId) {
         return repairRepository.findRepairsByCustomerIdAndEmployeeId(customerId, employeeId);
     }
 
-    @GetMapping("/repairs/type/{type}")
+    @GetMapping(value = "/repairs/type/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Repair> getRepairsByType(@PathVariable String type) {
         return repairRepository.findRepairsByType(type);
     }
 
-    @GetMapping("/repairs/date/{date}")
-    public List<Repair> getRepairsByDate(@PathVariable LocalDate date) {
+    @GetMapping(value = "/repairs/date/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Repair> getRepairsByDate(@PathVariable String date) {
         return repairRepository.findRepairsByDate(date);
     }
 
-    @PostMapping("/repairs")
+    @RequestMapping(value = "/repairs", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @ResponseBody
     public Repair addRepair(@RequestBody Repair repair) {
         repairRepository.save(repair);
-
         return repair;
     }
 
-    @PutMapping("/repairs")
+    @RequestMapping(value = "/repairs", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @ResponseBody
     public Repair updatedRepair(@RequestBody Repair updatedRepair) {
-        Repair retrievedRepair = repairRepository.findRepairByCustomerIdAndDate(updatedRepair.getCustomerId(), updatedRepair.getDate());
+        Repair retrievedRepair = repairRepository.findRepairByRepairUuid(updatedRepair.getRepairUuid());
 
-        retrievedRepair.setDescription(updatedRepair.getDescription());
-        retrievedRepair.setPrice(updatedRepair.getPrice());
-        retrievedRepair.setListParts(updatedRepair.getParts());
+        if (retrievedRepair != null) {
+            retrievedRepair.setDescription(updatedRepair.getDescription());
+            retrievedRepair.setPrice(updatedRepair.getPrice());
+            retrievedRepair.setListParts(updatedRepair.getParts());
 
-        repairRepository.save(retrievedRepair);
+            repairRepository.save(retrievedRepair);
+        }
 
         return retrievedRepair;
     }
 
-    @DeleteMapping("/repairs/customer/{customerId}/date/{date}")
-    public ResponseEntity deleteRepair(@PathVariable String customerId, @PathVariable LocalDate date) {
-        Repair repair = repairRepository.findRepairByCustomerIdAndDate(customerId, date);
+    @DeleteMapping(value = "/repairs/uuid/{uuid}")
+    public @ResponseBody ResponseEntity deleteRepair(@PathVariable String uuid) {
+        Repair repair = repairRepository.findRepairByRepairUuid(uuid);
         if (repair != null) {
             repairRepository.delete(repair);
             return ResponseEntity.ok().build();

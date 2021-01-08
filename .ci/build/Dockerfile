@@ -5,7 +5,7 @@ WORKDIR /usr/app/
 ADD pom.xml /usr/app/
 ADD src/ /usr/app/src/
 
-RUN mvn install -Dmaven.test.skip=true
+RUN mvn install
 
 FROM openjdk:11-jre-slim as final
 EXPOSE 8052
