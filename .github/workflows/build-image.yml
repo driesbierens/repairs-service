@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: repairs-service-artifact.jar
-          path: target/repairs-service-0.0.1-SNAPSHOT.jar
+          path: ../target/repairs-service-0.0.1-SNAPSHOT.jar
 
       - name: Login to Docker
         run: docker login -u dbierens -p ${{ secrets.DOCKER_PASSWORD }}
