@@ -18,6 +18,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Start MongoDB for integration test
+        uses: supercharge/mongodb-github-action@1.3.0
+        with:
+         mongodb-version: 4.2
         
       - name: Login to Docker
         run: docker login -u dbierens -p ${{ secrets.DOCKER_PASSWORD }}
@@ -28,7 +33,7 @@ jobs:
       - name: Push docker image
         run: docker push dbierens/repairs-service:latest
       
-      - name: Logout from Github Packages
+      - name: Logout from Docker
         run: docker logout
     
   update-image-name:
