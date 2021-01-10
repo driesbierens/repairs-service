@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class RepairController {
@@ -20,10 +21,10 @@ public class RepairController {
     @PostConstruct
     public void fillDB() {
         if(repairRepository.count() == 0) {
-            repairRepository.save(new Repair("c001","e001","onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"}));
-            repairRepository.save(new Repair("c002","e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"}));
-            repairRepository.save(new Repair("c003","e002", "motor", 3500.0, LocalDate.of(1996,5,30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}));
-            repairRepository.save(new Repair("c050","e002", "motor", 3500.0, LocalDate.of(1996,5,30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}));
+            repairRepository.save(new Repair("c001","e001","onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"}, "r001"));
+            repairRepository.save(new Repair("c002","e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"}, "r002"));
+            repairRepository.save(new Repair("c003","e002", "motor", 3500.0, LocalDate.of(1996,5,30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}, "r003"));
+            repairRepository.save(new Repair("c050","e002", "motor", 3500.0, LocalDate.of(1996,5,30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}, "r004"));
         }
 
         System.out.println("Repairs test: " + repairRepository.findRepairsByEmployeeId("e001").size());
@@ -62,6 +63,7 @@ public class RepairController {
     @RequestMapping(value = "/repairs", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     @ResponseBody
     public Repair addRepair(@RequestBody Repair repair) {
+        repair.setRepairUuid("r" + UUID.randomUUID().toString().replace("-", ""));
         repairRepository.save(repair);
         return repair;
     }

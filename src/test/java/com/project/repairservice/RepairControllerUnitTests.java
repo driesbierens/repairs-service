@@ -38,7 +38,7 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenGetRepairByUuid_thenReturnJsonRepair() throws Exception {
-        Repair repairCustomer1Employee1 = new Repair("c001", "e001", "onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"});
+        Repair repairCustomer1Employee1 = new Repair("c001", "e001", "onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"}, "r001");
 
         given(repairRepository.findRepairByRepairUuid(repairCustomer1Employee1.getRepairUuid())).willReturn(repairCustomer1Employee1);
 
@@ -59,8 +59,8 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenGetRepairsByEmployeeId_thenReturnJsonRepairs() throws Exception {
-        Repair repairCustomer1Employee1 = new Repair("c001", "e001", "onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"});
-        Repair repairCustomer2Employee1 = new Repair("c002", "e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"});
+        Repair repairCustomer1Employee1 = new Repair("c001", "e001", "onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"}, "r001");
+        Repair repairCustomer2Employee1 = new Repair("c002", "e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"}, "r002");
 
         List<Repair> repairList = new ArrayList<>();
         repairList.add(repairCustomer1Employee1);
@@ -97,7 +97,7 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenGetRepairsByCustomerId_thenReturnJsonRepairs() throws Exception {
-        Repair repairCustomer2Employee1 = new Repair("c002", "e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"});
+        Repair repairCustomer2Employee1 = new Repair("c002", "e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"}, "r003");
         List<Repair> repairList = new ArrayList<>();
         repairList.add(repairCustomer2Employee1);
 
@@ -122,7 +122,7 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenGetRepairByCustomerIdAndEmployeeId_thenReturnJsonRepairs() throws Exception {
-        Repair repairCustomer3Employee2 = new Repair("c003", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"});
+        Repair repairCustomer3Employee2 = new Repair("c003", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}, "r004");
         List<Repair> repairList = new ArrayList<>();
         repairList.add(repairCustomer3Employee2);
 
@@ -147,8 +147,8 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenGetRepairsByType_thenReturnJsonRepairs() throws Exception {
-        Repair repairCustomer1Employee1 = new Repair("c001", "e001", "onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"});
-        Repair repairCustomer2Employee1 = new Repair("c002", "e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"});
+        Repair repairCustomer1Employee1 = new Repair("c001", "e001", "onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"}, "r001");
+        Repair repairCustomer2Employee1 = new Repair("c002", "e001", "onderhoud", 350.0, LocalDate.now().toString(), "Groot onderhoud en smering", new String[]{"abc1", "abc2", "abc3"}, "r002");
         List<Repair> repairList = new ArrayList<>();
         repairList.add(repairCustomer1Employee1);
         repairList.add(repairCustomer2Employee1);
@@ -184,8 +184,8 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenGetRepairsByDate_thenReturnJsonRepairs() throws Exception {
-        Repair repairCustomer3Employee2 = new Repair("c003", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"});
-        Repair repairToBeDeleted = new Repair("c050", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"});
+        Repair repairCustomer3Employee2 = new Repair("c003", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}, "r003");
+        Repair repairToBeDeleted = new Repair("c050", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}, "r004");
 
         List<Repair> repairList = new ArrayList<>();
         repairList.add(repairCustomer3Employee2);
@@ -223,7 +223,7 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenAddRepair_thenReturnJsonRepair() throws Exception {
-        Repair repairCustomer4Employee2 = new Repair("c004", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"});
+        Repair repairCustomer4Employee2 = new Repair("c004", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}, "r005");
 
         mockMvc.perform(post("/repairs")
                 .content(mapper.writeValueAsString(repairCustomer4Employee2))
@@ -245,7 +245,7 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenUpdatedRepair_thenReturnJsonRepair() throws Exception {
-        Repair repairCustomer1Employee1 = new Repair("c001", "e001", "onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"});
+        Repair repairCustomer1Employee1 = new Repair("c001", "e001", "onderhoud", 250.0, LocalDate.now().toString(), "Groot onderhoud", new String[]{"abc1", "abc2"}, "r001");
 
         given(repairRepository.findRepairByRepairUuid(repairCustomer1Employee1.getRepairUuid())).willReturn(repairCustomer1Employee1);
 
@@ -276,7 +276,7 @@ public class RepairControllerUnitTests {
 
     @Test
     public void givenRepair_whenDeleteRepair_thenStatusOk() throws Exception {
-        Repair repairToBeDeleted = new Repair("c050", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"});
+        Repair repairToBeDeleted = new Repair("c050", "e002", "motor", 3500.0, LocalDate.of(1996, 5, 30).toString(), "Motor vervangen", new String[]{"abc4", "abc5", "abc7"}, "r004");
 
         given(repairRepository.findRepairByRepairUuid(repairToBeDeleted.getRepairUuid())).willReturn(repairToBeDeleted);
 

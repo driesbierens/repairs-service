@@ -19,13 +19,13 @@ public class Repair {
     private String description;
     private String[] parts;
     @Indexed(unique = true)
-    private String repairUuid = generateRepairUuid();
+    private String repairUuid;
 
     public Repair() {
 
     }
 
-    public Repair(String customerId, String employeeId, String type, double price, String date, String description, String[] parts) {
+    public Repair(String customerId, String employeeId, String type, double price, String date, String description, String[] parts, String repairUuid) {
         setCustomerId(customerId);
         setEmployeeId(employeeId);
         setType(type);
@@ -33,6 +33,7 @@ public class Repair {
         setRepairDate(date);
         setDescription(description);
         setListParts(parts);
+        setRepairUuid(repairUuid);
     }
 
     private String generateRepairUuid() {
